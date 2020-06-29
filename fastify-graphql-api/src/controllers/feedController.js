@@ -17,7 +17,7 @@ exports.getFeeds = async (req, reply) => {
 // Get single feed by ID
 exports.getSingleFeed = async (req, reply) => {
   try {
-    const id = req.params.id
+    const id = req.params === undefined ? req.id : req.params.id
     const feed = await Feed.findById(id)
     return feed
   } catch (err) {
@@ -28,8 +28,9 @@ exports.getSingleFeed = async (req, reply) => {
 // Add a new feed
 exports.addFeed = async (req, reply) => {
   try {
-    const feed = new Feed(req.body)
-    return feed.save()
+    const feed = new Feed(req)
+    const newFeed = await feed.save()
+    return newFeed
   } catch (err) {
     throw boom.boomify(err)
   }
@@ -38,9 +39,8 @@ exports.addFeed = async (req, reply) => {
 // Update an existing feed
 exports.updateFeed = async (req, reply) => {
   try {
-    const id = req.params.id
-    const feed = req.body
-    const { ...updateData } = feed
+    const id = req.params === undefined ? req.id : req.params.id
+		const updateData = req.params === undefined ? req : req.params
     const update = await Feed.findByIdAndUpdate(id, updateData, { new: true })
     return update
   } catch (err) {
@@ -51,7 +51,7 @@ exports.updateFeed = async (req, reply) => {
 // Delete a feed
 exports.deleteFeed = async (req, reply) => {
   try {
-    const id = req.params.id
+    const id = req.params === undefined ? req.id : req.params.id
     const feed = await Feed.findByIdAndRemove(id)
     return feed
   } catch (err) {
