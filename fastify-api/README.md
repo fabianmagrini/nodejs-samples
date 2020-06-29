@@ -48,3 +48,41 @@ npm start
 Now can navigate to <http://localhost:3000/>
 
 ## Use Postman to try the API and seed database
+
+### Finding all
+
+```json
+GET http://localhost:3000/api/feeds
+```
+
+### Finding one
+
+```json
+GET http://localhost:3000/api/feeds/<id>
+```
+
+### Create
+
+```json
+POST http://localhost:3000/api/feeds
+{
+"name": "TheWorldGame",
+"url": "foo"
+}
+```
+
+### Updating
+
+```json
+PUT http://localhost:3000/api/feeds/<id>
+{
+"name": "TheWorldGame",
+"url": "foo"
+}
+```
+
+### Deleting
+
+```json
+DELETE http://localhost:3000/api/feeds/<id>
+```
