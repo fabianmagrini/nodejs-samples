@@ -1,0 +1,97 @@
+{
+  "users": [
+    {
+      "id": "vikb33990meid9eer",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "status": "active",
+      "createdAt": "2025-08-19T09:53:47.571Z"
+    },
+    {
+      "id": "r6zssc5uameidb9u1",
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "status": "active",
+      "createdAt": "2025-08-19T09:55:14.953Z"
+    },
+    {
+      "id": "tdi5n3z5fmeide40x",
+      "name": "Jane Smith",
+      "email": "jane.smith.1755597447391@example.com",
+      "status": "active",
+      "createdAt": "2025-08-19T09:57:27.393Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "gx0jirnaxmeid9knm",
+      "name": "Laptop",
+      "description": "High-performance laptop",
+      "price": 999.99,
+      "category": "electronics",
+      "inStock": true,
+      "quantity": 0,
+      "createdAt": "2025-08-19T09:53:55.666Z"
+    },
+    {
+      "id": "b68rbrckkmeidarbr",
+      "name": "Test Product",
+      "description": "A test product",
+      "price": 29.99,
+      "category": "electronics",
+      "inStock": true,
+      "quantity": 0,
+      "createdAt": "2025-08-19T09:54:50.967Z"
+    },
+    {
+      "id": "rfp0no1sfmeidb9u3",
+      "name": "Test Product",
+      "description": "A test product",
+      "price": 29.99,
+      "category": "electronics",
+      "inStock": true,
+      "quantity": 0,
+      "createdAt": "2025-08-19T09:55:14.955Z"
+    },
+    {
+      "id": "q7kggy6krmeidbimm",
+      "name": "Test Product",
+      "description": "A test product",
+      "price": 29.99,
+      "category": "electronics",
+      "inStock": true,
+      "quantity": 0,
+      "createdAt": "2025-08-19T09:55:26.350Z"
+    },
+    {
+      "id": "b869zhuenmeidbrcq",
+      "name": "Test Product",
+      "description": "A test product",
+      "price": 29.99,
+      "category": "electronics",
+      "inStock": true,
+      "quantity": 0,
+      "createdAt": "2025-08-19T09:55:37.658Z"
+    },
+    {
+      "id": "27cplt1frmeiddr20",
+      "name": "Test Product",
+      "description": "A test product",
+      "price": 29.99,
+      "category": "electronics",
+      "inStock": true,
+      "quantity": 0,
+      "createdAt": "2025-08-19T09:57:10.584Z"
+    },
+    {
+      "id": "km4t8krpdmeide40z",
+      "name": "Test Product",
+      "description": "A test product",
+      "price": 29.99,
+      "category": "electronics",
+      "inStock": true,
+      "quantity": 0,
+      "createdAt": "2025-08-19T09:57:27.395Z"
+    }
+  ]
+}

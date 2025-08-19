@@ -27,6 +27,14 @@ Production-grade 12-factor application with comprehensive monitoring and observa
 - **Health**: http://localhost:3000/health
 - **Metrics**: http://localhost:3000/metrics
 
+### [vanillajs-api](./vanillajs-api/)
+Lightweight REST API built with pure Node.js using only built-in modules.
+
+- **Tech Stack**: Pure Node.js (no external dependencies)
+- **Features**: CRUD operations, file-based database, custom router, middleware system, input validation
+- **Testing**: Custom test runner with Node.js assert module
+- **API**: http://localhost:3000
+
 ## Prerequisites
 
 ### For Fastify APIs
@@ -38,6 +46,10 @@ Production-grade 12-factor application with comprehensive monitoring and observa
 - [Node.js 18+](https://nodejs.org/en/)
 - [Docker and Docker Compose](https://docs.docker.com/) (optional for monitoring stack)
 - TypeScript knowledge recommended
+
+### For Vanilla JS API
+- [Node.js 14+](https://nodejs.org/en/)
+- No external dependencies required
 
 ## Quick Start
 
@@ -55,3 +67,9 @@ Each project runs on http://localhost:3000 and connects to `mongodb://localhost/
 4. Optional: Start monitoring stack with `docker-compose -f docker-compose.dev.yml up`
 
 The application runs on http://localhost:3000 with comprehensive monitoring and observability features.
+
+### Vanilla JS API
+1. Navigate to `vanillajs-api` directory
+2. Start the server: `npm start`
+
+The API runs on http://localhost:3000 with no external dependencies required.

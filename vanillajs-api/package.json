@@ -1,0 +1,17 @@
+{
+  "name": "vanillajs-api",
+  "version": "1.0.0",
+  "description": "A Node.js API built with vanilla JavaScript",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "node tests/test-runner.js"
+  },
+  "keywords": ["nodejs", "api", "vanilla", "javascript"],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
