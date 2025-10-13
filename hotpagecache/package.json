@@ -1,0 +1,30 @@
+{
+  "name": "hotpagecache",
+  "version": "1.0.0",
+  "description": "A TypeScript abstraction for high-performance caching of paginated data using Redis",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "example": "ts-node examples/example.ts"
+  },
+  "keywords": [
+    "cache",
+    "redis",
+    "pagination",
+    "typescript",
+    "performance"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ioredis": "^5.3.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  }
+}

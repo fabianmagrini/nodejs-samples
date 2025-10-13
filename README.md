@@ -35,6 +35,14 @@ Lightweight REST API built with pure Node.js using only built-in modules.
 - **Testing**: Custom test runner with Node.js assert module
 - **API**: http://localhost:3000
 
+### [hotpagecache](./hotpagecache/)
+High-performance caching abstraction for paginated data using Redis Sorted Sets and Hashes.
+
+- **Tech Stack**: TypeScript, Redis (ioredis), Zod
+- **Features**: Cache-aside pattern, type safety, automatic TTL, generic design, efficient storage
+- **Use Cases**: Caching expensive pagination queries from Cassandra, Elasticsearch, or similar backends
+- **Performance**: Sub-millisecond response times with O(log(N) + M) complexity
+
 ## Prerequisites
 
 ### For Fastify APIs
@@ -50,6 +58,11 @@ Lightweight REST API built with pure Node.js using only built-in modules.
 ### For Vanilla JS API
 - [Node.js 14+](https://nodejs.org/en/)
 - No external dependencies required
+
+### For HotPageCache
+- [Node.js 14+](https://nodejs.org/en/)
+- [Redis 5.0+](https://redis.io/)
+- TypeScript 4.5+
 
 ## Quick Start
 
@@ -73,3 +86,12 @@ The application runs on http://localhost:3000 with comprehensive monitoring and 
 2. Start the server: `npm start`
 
 The API runs on http://localhost:3000 with no external dependencies required.
+
+### HotPageCache
+1. Navigate to `hotpagecache` directory
+2. Install dependencies: `npm install`
+3. Start Redis: `docker run -d -p 6379:6379 redis:latest`
+4. Build the project: `npm run build`
+5. Run the example: `npm run example`
+
+This is a library for caching paginated data with Redis, designed to be integrated into your applications.
