@@ -29,6 +29,8 @@ This is a Node.js samples repository containing three main implementations:
 - `src/services/` - Business logic layer
 - `src/utils/` - Utility functions (logger, resilience)
 - `src/config/` - Configuration management
+- `.claude/skills/` - Custom Claude Code skills for this project
+  - `review.md` - `/review` skill: structured code review focused on this stack
 
 ## Development Commands
 

@@ -98,5 +98,19 @@ temp/
 docker-data/
 volumes/
 
-# Claude AI specific files
-.claude/
+# Claude AI specific files - exclude runtime/personal data but allow skills
+**/.claude/cache
+**/.claude/history.jsonl
+**/.claude/settings.local.json
+**/.claude/todos
+**/.claude/tasks
+**/.claude/plans
+**/.claude/debug
+**/.claude/ide
+**/.claude/shell-snapshots
+**/.claude/statsig
+**/.claude/telemetry
+**/.claude/session-env
+**/.claude/mcp-needs-auth-cache.json
+**/.claude/file-history
+**/.claude/backups

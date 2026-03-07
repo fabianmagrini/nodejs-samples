@@ -358,6 +358,26 @@ The Dockerfile uses multi-stage builds for optimization:
 - `npm run lint` - Lint code
 - `npm run typecheck` - Type checking
 
+### Claude Code Skills
+
+This project includes custom Claude Code skills in `.claude/skills/`:
+
+| Skill | Command | Description |
+|-------|---------|-------------|
+| Review | `/review` | Structured code review across TypeScript, 12-factor, Express, observability, resilience, security, and test dimensions |
+
+**Usage:**
+```bash
+# Review all source files
+/review
+
+# Review a specific directory
+/review src/middleware/
+
+# Review a specific topic
+/review resilience
+```
+
 ### Code Quality
 
 - ESLint configuration with TypeScript rules
