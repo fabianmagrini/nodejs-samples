@@ -1,0 +1,217 @@
+version: '3.8'
+
+services:
+  # Infrastructure Services
+  timescaledb:
+    image: timescale/timescaledb:latest-pg14
+    container_name: timescaledb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: otel_demo
+    ports:
+      - "5999:5432"
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d otel_demo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ["--config=/etc/otel-collector-config.yml"]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+      - "4317:4317"   # gRPC
+      - "4318:4318"   # HTTP
+      - "8889:8889"   # Prometheus metrics
+    depends_on:
+      - jaeger
+    restart: unless-stopped
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686" # Jaeger UI
+      - "14317:4317"  # Jaeger gRPC (remapped to avoid conflict)
+      - "14318:4318"  # Jaeger HTTP (remapped to avoid conflict)
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:16686"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  # Character Services
+  lower:
+    build:
+      context: ./services/lower
+      dockerfile: Dockerfile
+    container_name: lower-service
+    environment:
+      - PORT=5053
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_SERVICE_NAME=lower-service
+      - NODE_ENV=production
+    ports:
+      - "5053:5053"
+    depends_on:
+      - otel-collector
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5053/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  upper:
+    build:
+      context: ./services/upper
+      dockerfile: Dockerfile
+    container_name: upper-service
+    environment:
+      - PORT=5054
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_SERVICE_NAME=upper-service
+      - NODE_ENV=production
+    ports:
+      - "5054:5054"
+    depends_on:
+      - otel-collector
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5054/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  digit:
+    build:
+      context: ./services/digit
+      dockerfile: Dockerfile
+    container_name: digit-service
+    environment:
+      - PORT=5051
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_SERVICE_NAME=digit-service
+      - NODE_ENV=production
+    ports:
+      - "5051:5051"
+    depends_on:
+      - otel-collector
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5051/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  special:
+    build:
+      context: ./services/special
+      dockerfile: Dockerfile
+    container_name: special-service
+    environment:
+      - PORT=5052
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_SERVICE_NAME=special-service
+      - NODE_ENV=production
+    ports:
+      - "5052:5052"
+    depends_on:
+      - otel-collector
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5052/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  generator:
+    build:
+      context: ./services/generator
+      dockerfile: Dockerfile
+    container_name: generator-service
+    environment:
+      - PORT=5050
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_SERVICE_NAME=generator-service
+      - NODE_ENV=production
+      - LOWER_SERVICE_URL=http://lower:5053
+      - UPPER_SERVICE_URL=http://upper:5054
+      - DIGIT_SERVICE_URL=http://digit:5051
+      - SPECIAL_SERVICE_URL=http://special:5052
+    ports:
+      - "5050:5050"
+    depends_on:
+      - otel-collector
+      - lower
+      - upper
+      - digit
+      - special
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:5050/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  load:
+    build:
+      context: ./services/load
+      dockerfile: Dockerfile
+    environment:
+      - GENERATOR_URL=http://generator:5050
+      - LOAD_DELAY_MS=500
+      - NODE_ENV=production
+    depends_on:
+      generator:
+        condition: service_healthy
+    deploy:
+      replicas: 2
+    restart: unless-stopped
+
+volumes:
+  timescaledb_data:
+  prometheus_data:
+  grafana_data:

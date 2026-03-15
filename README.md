@@ -43,6 +43,14 @@ High-performance caching abstraction for paginated data using Redis Sorted Sets 
 - **Use Cases**: Caching expensive pagination queries from Cassandra, Elasticsearch, or similar backends
 - **Performance**: Sub-millisecond response times with O(log(N) + M) complexity
 
+### [opentelemetry-demo](./opentelemetry-demo/)
+Microservices demo application demonstrating distributed tracing, metrics collection, and observability using OpenTelemetry.
+
+- **Tech Stack**: TypeScript, Node.js, Express, OpenTelemetry, Prometheus, Grafana, Jaeger, TimescaleDB
+- **Features**: Distributed tracing, metrics collection, pre-built dashboards, load generation
+- **Architecture**: Password generator service orchestrating calls to multiple character microservices
+- **Observability**: Jaeger tracing (`:16686`), Prometheus metrics (`:9090`), Grafana dashboards (`:3000`)
+
 ## Prerequisites
 
 ### For Fastify APIs
@@ -63,6 +71,11 @@ High-performance caching abstraction for paginated data using Redis Sorted Sets 
 - [Node.js 14+](https://nodejs.org/en/)
 - [Redis 5.0+](https://redis.io/)
 - TypeScript 4.5+
+
+### For OpenTelemetry Demo
+- [Docker](https://docs.docker.com/get-docker/) and Docker Compose v2
+- [Node.js 20+](https://nodejs.org/en/) (for local development)
+- npm 10+
 
 ## Quick Start
 
@@ -95,3 +108,10 @@ The API runs on http://localhost:3000 with no external dependencies required.
 5. Run the example: `npm run example`
 
 This is a library for caching paginated data with Redis, designed to be integrated into your applications.
+
+### OpenTelemetry Demo
+1. Navigate to `opentelemetry-demo` directory
+2. Copy the environment file: `cp .env.example .env`
+3. Start all services: `docker compose up --build`
+
+The load service automatically generates traffic. Access Jaeger at http://localhost:16686, Grafana at http://localhost:3000 (admin/admin), and Prometheus at http://localhost:9090.

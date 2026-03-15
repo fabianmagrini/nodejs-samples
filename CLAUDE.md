@@ -4,11 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Structure
 
-This is a Node.js samples repository containing three main implementations:
+This is a Node.js samples repository containing several implementations:
 
 - `fastify-api/` - REST API with Node.js, MongoDB, Fastify and Swagger
 - `fastify-graphql-api/` - GraphQL API with Node.js, MongoDB, Fastify and Swagger
 - `12-factor-app/` - Production-grade 12-factor app with TypeScript, Express, monitoring, and observability
+- `vanillajs-api/` - Lightweight REST API using only Node.js built-in modules
+- `hotpagecache/` - TypeScript library for caching paginated data with Redis
+- `opentelemetry-demo/` - Microservices demo with distributed tracing and observability using OpenTelemetry
 
 ### Fastify APIs Architecture (fastify-api & fastify-graphql-api)
 - `src/index.js` - Main application entry point
@@ -93,6 +96,10 @@ npm run typecheck
 - TypeScript
 - Docker and Docker Compose (optional for monitoring stack)
 
+### OpenTelemetry Demo
+- Node.js 20+, npm 10+
+- Docker and Docker Compose v2
+
 ## API Access
 
 ### REST API (fastify-api)
@@ -123,3 +130,13 @@ Both APIs use the same Feed model with MongoDB via Mongoose, containing basic fe
 
 ### 12-Factor App
 Uses TypeScript interfaces for User model with in-memory storage (production-ready architecture for external database integration).
+
+### OpenTelemetry Demo
+- `services/generator/` - Password orchestrator, calls all four character services concurrently
+- `services/lower/`, `services/upper/`, `services/digit/`, `services/special/` - Character generator microservices
+- `services/load/` - Continuous load generator (2 replicas in Docker Compose)
+- `docker-compose.yml` - Full stack: services + OTel Collector + Jaeger + Prometheus + Grafana + TimescaleDB
+- `otel-collector-config.yml` - Collector pipeline configuration
+- `grafana/provisioning/` - Pre-provisioned dashboards and datasources
+
+Each service has a `tracing.ts` that must be imported first in `index.ts` for auto-instrumentation to work correctly.
