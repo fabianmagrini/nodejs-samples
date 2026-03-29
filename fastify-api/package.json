@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "boom": "^7.3.0",
-    "fastify": "^2.15.0",
+    "fastify": "^2.15.1",
     "fastify-swagger": "^2.6.0",
     "mongoose": "^5.9.20",
     "nodemon": "^2.0.4"
